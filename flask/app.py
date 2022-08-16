@@ -14,8 +14,6 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 
-# source: https: // flask.palletsprojects.com/en/1.1.x/patterns/fileuploads /?highlight = javascript
-
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -23,6 +21,7 @@ def allowed_file(filename):
 
 @app.route("/", methods=["GET", "POST"])
 def upload_file():
+    # initial method – uploading file from the local machine to the flask app folder
     if request.method == "POST":
         # check if the post request has the file part
         if "file" not in request.files:
@@ -54,6 +53,7 @@ from flask import send_from_directory
 
 @app.route("/predictions/<name>")
 def prediction(name):
+    # human/dog detection and breed prediction using dog_breed_predict function
     img_file_path = "/static/" + name
     detection, breed = dog_breed_predict(img_file_path)
     if detection == "dog":
