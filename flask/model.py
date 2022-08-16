@@ -39,16 +39,18 @@ def Resnet50_predict_breed(img_path):
 
 def dog_breed_predict(img_path):
     plt.imshow(cv2.imread(img_path))
+    detected = None
     if dog_detector(img_path) == True:
+        detected = "dog"
         print("Dog detected in image")
         dog_breed_label = Resnet50_predict_breed(img_path)
     else:
         if face_detector(img_path) == True:
+            detected = "human"
             print("Human detected in image")
             dog_breed_label = Resnet50_predict_breed(img_path)
         else:
             print("No dog or human detected in image")
-            return None
-    return dog_breed_label
-
+            dog_breed_label = None
+    return detected, dog_breed_label
 
