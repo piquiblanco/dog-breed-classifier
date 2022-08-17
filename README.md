@@ -23,8 +23,11 @@ There are 836 test dog images.
 ## Modelling, hyperparameter tuning and results
 There are several parts of the project which were subject to evaluation:
 1. Human detector – detected human faces in 100% of provided human files and in 11% of provided dog files. The recall is perfect but we struggle a bit with false positives;
+
 2. Dog detector – detected dogs in 100% of provided dog files and in 0% of provided human files. This detector is working perfectly for our needs, at least on the provided dataset.
+
 3. CNN from scratch – a convolutional neural network as specified below.
+
 Layer (type)                 Output Shape              Param #   
 =================================================================
 conv2d_1 (Conv2D)            (None, 224, 224, 16)      208       
@@ -43,11 +46,14 @@ global_average_pooling2d_1 ( (None, 64)                0
 _________________________________________________________________
 dense_1 (Dense)              (None, 133)               8645      
 =================================================================
+
 Total params: 19,189
 Trainable params: 19,189
 Non-trainable params: 0
 The from-scratch CNN achieved accuracy of 3.9474%.
+
 4. CNN using transfer learning using a pre-trained VGG-16 model as a fixed feature extractor, where the last convolutional output of VGG-16 is fed as input to our model. Output is directed through a global average pooling layer and the last dense layer. This model has an accuracy of 42.5837%.
+
 5. CNN using transfer learning, using pre-trained ResNet-50 bottleneck features. Network was specified as below:
 Layer (type)                 Output Shape              Param #   
 =================================================================
