@@ -12,6 +12,7 @@ from keras.models import Sequential
 
 
 def extract_Resnet50(tensor):
+    #  function derived from dog_app.ipynb file
     from keras.applications.resnet50 import ResNet50, preprocess_input
 
     return ResNet50(weights="imagenet", include_top=False).predict(
@@ -29,6 +30,7 @@ bottleneck_features = np.load("../bottleneck_features/DogResnet50Data.npz")
 
 
 def Resnet50_predict_breed(img_path):
+    #  function derived from dog_app.ipynb file
     # extract bottleneck features
     bottleneck_feature = extract_Resnet50(path_to_tensor(img_path))
     # obtain predicted vector
@@ -38,6 +40,17 @@ def Resnet50_predict_breed(img_path):
 
 
 def dog_breed_predict(img_path):
+    """
+    Function detecting dogs or humans in picture and predicting a dog breed based on image path.
+    Input:
+    img_path : str
+        Path to image.
+    Output:
+    detected : str
+        Label 'human', 'dog', or None.
+    dog_breed_label : str
+        Predicted dog breed.
+    """
     plt.imshow(cv2.imread(img_path))
     detected = None
     if dog_detector(img_path) == True:

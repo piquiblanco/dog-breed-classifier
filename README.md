@@ -1,17 +1,71 @@
 [//]: # (Image References)
 
 [image1]: ./images/sample_dog_output.png "Sample Output"
-[image2]: ./images/vgg16_model.png "VGG-16 Model Keras Layers"
-[image3]: ./images/vgg16_model_draw.png "VGG16 Model Figure"
 
 
-## Project Overview
+## Problem Introduction
+This project is concerned with predicting dog breed from images of dogs. The prediction is made by way of convolutional neural networks (CNN). These predictions can also be extended to photos of humans, which allows us to see what dog breeds the humans resemble
 
-Welcome to the Convolutional Neural Networks (CNN) project in the AI Nanodegree! In this project, you will learn how to build a pipeline that can be used within a web or mobile app to process real-world, user-supplied images.  Given an image of a dog, your algorithm will identify an estimate of the canine’s breed.  If supplied an image of a human, the code will identify the resembling dog breed.  
+## Strategy to solve the problem
+To predict the breed we are using a convolutional neural network with transfer learning and features extracted from a pre-trained Resnet50 model. This allowed us to get a good performance from a relatively small sample and a simple architecture.
 
-![Sample Output][image1]
+## Metrics
+The success of the dog breed predictor is measured with accuracy. Other parts of this project are the human detector and the dog detector, which are both evaluated on sets of human and dog images.
 
-Along with exploring state-of-the-art CNN models for classification, you will make important design decisions about the user experience for your app.  Our goal is that by completing this lab, you understand the challenges involved in piecing together a series of models designed to perform various tasks in a data processing pipeline.  Each model has its strengths and weaknesses, and engineering a real-world application often involves solving many problems without a perfect answer.  Your imperfect solution will nonetheless create a fun user experience!
+## EDA
+There are 133 total dog categories.
+There are 8351 total dog images.
+
+There are 6680 training dog images.
+There are 835 validation dog images.
+There are 836 test dog images.
+
+## Modelling, hyperparameter tuning and results
+There are several parts of the project which were subject to evaluation:
+1. Human detector – detected human faces in 100% of provided human files and in 11% of provided dog files. The recall is perfect but we struggle a bit with false positives;
+2. Dog detector – detected dogs in 100% of provided dog files and in 0% of provided human files. This detector is working perfectly for our needs, at least on the provided dataset.
+3. CNN from scratch – a convolutional neural network as specified below.
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_1 (Conv2D)            (None, 224, 224, 16)      208       
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 112, 112, 16)      0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 112, 112, 32)      2080      
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 56, 56, 32)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 56, 56, 64)        8256      
+_________________________________________________________________
+max_pooling2d_4 (MaxPooling2 (None, 28, 28, 64)        0         
+_________________________________________________________________
+global_average_pooling2d_1 ( (None, 64)                0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 133)               8645      
+=================================================================
+Total params: 19,189
+Trainable params: 19,189
+Non-trainable params: 0
+The from-scratch CNN achieved accuracy of 3.9474%.
+4. CNN using transfer learning using a pre-trained VGG-16 model as a fixed feature extractor, where the last convolutional output of VGG-16 is fed as input to our model. Output is directed through a global average pooling layer and the last dense layer. This model has an accuracy of 42.5837%.
+5. CNN using transfer learning, using pre-trained ResNet-50 bottleneck features. Network was specified as below:
+Layer (type)                 Output Shape              Param #   
+=================================================================
+global_average_pooling2d_3 ( (None, 2048)              0         
+_________________________________________________________________
+dense_3 (Dense)              (None, 133)               272517    
+=================================================================
+Total params: 272,517
+Trainable params: 272,517
+Non-trainable params: 0
+This model achieved the test accuracy of 80.9809%, which was enough for our purposes.
+
+## Conclusion/Reflection
+With the test accuracy of over 80%, the model is working satisfactorily. There is also a Flask app provided, through which users can upload thier own photos and try to detect dog breeds there
+## Possible improvements
+- better dog and human detectors (especially with regards to images without neither dogs nor humans)
+- augmenting the training set to get better CNN accuracy
+- experimenting with different bottleneck feature sets.
 
 ## Project Instructions
 
@@ -98,19 +152,4 @@ python -m ipykernel install --user --name dog-project --display-name "dog-projec
 jupyter notebook dog_app.ipynb
 ```
 
-12. (Optional) **If you are running the project on your local machine (and not using AWS)**, before running code, change the kernel to match the dog-project environment by using the drop-down menu (**Kernel > Change kernel > dog-project**). Then, follow the instructions in the notebook.
-
-__NOTE:__ While some code has already been implemented to get you started, you will need to implement additional functionality to successfully answer all of the questions included in the notebook. __Unless requested, do not modify code that has already been included.__
-
-## Evaluation
-
-Your project will be reviewed by a Udacity reviewer against the CNN project [rubric](https://review.udacity.com/#!/rubrics/810/view).  Review this rubric thoroughly, and self-evaluate your project before submission.  All criteria found in the rubric must meet specifications for you to pass.
-
-## Project Submission
-
-When you are ready to submit your project, collect the following files and compress them into a single archive for upload:
-- The `dog_app.ipynb` file with fully functional code, all code cells executed and displaying output, and all questions answered.
-- An HTML or PDF export of the project notebook with the name `report.html` or `report.pdf`.
-- Any additional images used for the project that were not supplied to you for the project. __Please do not include the project data sets in the `dogImages/` or `lfw/` folders.  Likewise, please do not include the `bottleneck_features/` folder.__
-
-Alternatively, your submission could consist of the GitHub link to your repository.
+12. Use the app. App is located in the `flask/app.py` file.
