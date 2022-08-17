@@ -54,6 +54,7 @@ The from-scratch CNN achieved accuracy of 3.9474%.
 4. CNN using transfer learning using a pre-trained VGG-16 model as a fixed feature extractor, where the last convolutional output of VGG-16 is fed as input to our model. Output is directed through a global average pooling layer and the last dense layer. This model has an accuracy of 42.5837%.
 
 5. CNN using transfer learning, using pre-trained ResNet-50 bottleneck features. Network was specified as below:
+
 Layer (type)                 Output Shape              Param
 
 global_average_pooling2d_3 ( (None, 2048)              0         
