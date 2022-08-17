@@ -28,8 +28,8 @@ There are several parts of the project which were subject to evaluation:
 
 3. CNN from scratch – a convolutional neural network as specified below.
 
-Layer (type)                 Output Shape              Param #   
-=================================================================
+Layer (type)                 Output Shape              Param 
+
 conv2d_1 (Conv2D)            (None, 224, 224, 16)      208       
 _________________________________________________________________
 max_pooling2d_2 (MaxPooling2 (None, 112, 112, 16)      0         
@@ -45,7 +45,6 @@ _________________________________________________________________
 global_average_pooling2d_1 ( (None, 64)                0         
 _________________________________________________________________
 dense_1 (Dense)              (None, 133)               8645      
-=================================================================
 
 Total params: 19,189
 Trainable params: 19,189
@@ -55,12 +54,12 @@ The from-scratch CNN achieved accuracy of 3.9474%.
 4. CNN using transfer learning using a pre-trained VGG-16 model as a fixed feature extractor, where the last convolutional output of VGG-16 is fed as input to our model. Output is directed through a global average pooling layer and the last dense layer. This model has an accuracy of 42.5837%.
 
 5. CNN using transfer learning, using pre-trained ResNet-50 bottleneck features. Network was specified as below:
-Layer (type)                 Output Shape              Param #   
-=================================================================
+Layer (type)                 Output Shape              Param
+
 global_average_pooling2d_3 ( (None, 2048)              0         
 _________________________________________________________________
 dense_3 (Dense)              (None, 133)               272517    
-=================================================================
+
 Total params: 272,517
 Trainable params: 272,517
 Non-trainable params: 0
