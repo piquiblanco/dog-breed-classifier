@@ -3,11 +3,12 @@
 [image1]: ./images/sample_dog_output.png "Sample Output"
 
 
-## Problem Introduction
-This project is concerned with predicting dog breed from images of dogs. The prediction is made by way of convolutional neural networks (CNN). These predictions can also be extended to photos of humans, which allows us to see what dog breeds the humans resemble
+## Problem overview
+This project is concerned with predicting dog breed from images of dogs. The prediction is made by way of convolutional neural networks (CNN). These predictions can also be extended to photos of humans, which allows us to see what dog breeds the humans resemble.
+The CNN predicting dog breeds achieved accuracy of over 80%. Part of the project is a Flask app, allowing user to upload their own images and run them through the model.
 
-## Strategy to solve the problem
-To predict the breed we are using a convolutional neural network with transfer learning and features extracted from a pre-trained Resnet50 model. This allowed us to get a good performance from a relatively small sample and a simple architecture.
+## Problem statement and strategy to solve the problem
+Predicting data from images is a computationally demanding task and a neural network had to be trained to achieve that. To predict the breed we are using a convolutional neural network with transfer learning and features extracted from a pre-trained Resnet50 model. This allowed us to get a good performance from a relatively small sample and a simple architecture.
 
 ## Metrics
 The success of the dog breed predictor is measured with accuracy. Other parts of this project are the human detector and the dog detector, which are both evaluated on sets of human and dog images.
@@ -20,7 +21,13 @@ There are 6680 training dog images.
 There are 835 validation dog images.
 There are 836 test dog images.
 
-## Modelling, hyperparameter tuning and results
+## Data visualization
+
+Twenty most encountered labels in the training set (most represented dog breeds)
+
+[Dog breed counts](dog_breed_counts.png)
+
+## Preprocessing, modelling, hyperparameter tuning and results
 There are several parts of the project which were subject to evaluation:
 1. Human detector – detected human faces in 100% of provided human files and in 11% of provided dog files. The recall is perfect but we struggle a bit with false positives;
 
@@ -67,7 +74,8 @@ Non-trainable params: 0
 This model achieved the test accuracy of 80.9809%, which was enough for our purposes.
 
 ## Conclusion/Reflection
-With the test accuracy of over 80%, the model is working satisfactorily. There is also a Flask app provided, through which users can upload thier own photos and try to detect dog breeds there
+Ultimately we chose the transfer learning model with ResNet-50 bottleneck features for our Flask app. With the test accuracy of over 80%, the model is working satisfactorily. There is also a Flask app provided, through which users can upload thier own photos and try to detect dog breeds there.
+
 ## Possible improvements
 - better dog and human detectors (especially with regards to images without neither dogs nor humans)
 - augmenting the training set to get better CNN accuracy
@@ -158,4 +166,4 @@ python -m ipykernel install --user --name dog-project --display-name "dog-projec
 jupyter notebook dog_app.ipynb
 ```
 
-12. Use the app. App is located in the `flask/app.py` file.
+12. Use the app. App is located in the `flask/app.py` file. It's enough to run the script for the app to launch.
